@@ -20,10 +20,30 @@ def get_unique_images(files: list) -> list:
             unique_images.append(file)
     return unique_images
 
+def get_unique_images_from_folder(files: list,unique_images: list) -> list:
+    for file in files:
+        if not contain_image(unique_images, file):
+            unique_images.append(file)
+    return unique_images
+
 
 def get_unique_images_in_folder(path: str) -> list:
     files = read_all_files_recursive(path)
     return get_unique_images(files)
+
+
+def scan_unique_images_in_folder(path: str,unique_images: list) -> list:
+    files = read_all_files_recursive(path)
+    return get_unique_images_from_folder(files,unique_images)
+
+
+
+
+
+
+def get_unique_list():
+    unique_images = read_all_files_recursive("./unique_images")
+    return unique_images
 
 
 def compare_images(im1: str, im2: str) -> bool:
@@ -61,32 +81,13 @@ def move_images(files: list, path: str):
             print("File already exists")
 
 
-
 if __name__ == '__main__':
-    unique_images = get_unique_images_in_folder("./unique_images")
+    unique_images = get_unique_list()
 
     print(len(unique_images))
     images = read_all_files_recursive("./Images")
-    unique = get_unique_images_in_folder(".")
+    #unique = get_unique_images_in_folder(".")
+
+    unique=scan_unique_images_in_folder("./Images",unique_images)
     print(len(unique))
     move_images(unique, "./unique_images")
-
-    # files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    # for f in files:
-    #     print(f)
-    # print(type(files))
-    #
-    # unique_images = []
-    # for current_file in files:
-    #     if not (is_image(current_file)):
-    #         print(current_file)
-    #         continue
-    #     if not unique_images:
-    #         unique_images.append(current_file)
-    #
-    #     if not contain_image(unique_images, current_file):
-    #         unique_images.append(current_file)
-    #
-    # for f in unique_images:
-    #     shutil.move(f, 'unique_images')
-    #
